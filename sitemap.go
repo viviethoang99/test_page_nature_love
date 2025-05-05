@@ -20,8 +20,6 @@ func main() {
     // Get the GitHub repository name from the current directory
     repoName := strings.ToLower(filepath.Base(dir))
 
-    baseURL := fmt.Sprintf("https://%s.github.io/test_page_nature_love", repoName)
-
     // Walk through the current directory
     err = filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
         if err != nil {
@@ -38,7 +36,7 @@ func main() {
                 return err
             }
             // Replace "loc>/" with "loc>https://[githubrepositorynameinlowercase]/"
-            updatedContent := bytes.Replace(content, []byte("loc>/"), []byte(fmt.Sprintf("loc>%s/", baseURL)), -1)
+            updatedContent := bytes.Replace(content, []byte("loc>/"), []byte(fmt.Sprintf("loc>https://%s/", repoName)), -1)
             // Write updated content back to the file
             err = ioutil.WriteFile(path, updatedContent, 0644)
             if err != nil {
